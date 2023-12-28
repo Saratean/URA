@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор выбросов CO2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #calculator {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+            width: 95%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="calculator">
+    <h2>Расчёт выбросов диоксида углерода (CO2-эквивалента)</h2>
+    
+    
+    <label for="fuelType">Тип топлива:</label>
+    <select id="fuelType">
+        <optgroup label="1. топливо">
+            <option value="natural_gas">природный газ</option>
+            <option value="coal">уголь</option>
+            <option value="peat">торф</option>	
+        </optgroup>
+        <optgroup label="2. моторное топливо">
+            <option value="gasoline">бензин</option>
+            <option value="kerosene">керосин</option>
+            <option value="diesel">дизельное топливо</option>
+            <option value="electric">Электро</option>
+        </optgroup>
+    </select>
+
+    
+
+    <label for="efficiency">Расход топлива(в литрах):</label>
+    <input type="number" id="efficiency" placeholder="Введите расход топлива">
+    <br>
+    <button onclick="calculateCO2()">Рассчитать</button>
+
+    <p id="result"></p>
+</div>
+
+
+
+<script>
+    function calculateCO2() {
+        var fuelType = document.getElementById('fuelType').value;
+        var fuelEfficiency = parseFloat(document.getElementById('efficiency').value);
+
+        if (isNaN(fuelEfficiency)) {
+            alert('Пожалуйста, введите корректные числовые значения.');
+            return;
+        }
+
+        // Константы для расчета выбросов CO2
+        var co2Factors = {
+            natural_gas: 1.603,
+            coal: 3.581,
+            peat: 4.412,
+            gasoline: 2.013, 
+            kerosene: 2.109,
+            diesel: 2.172,
+            electric: 0 // предположим, что электромобили не выбрасывают CO2
+        };
+
+        // Расчет выбросов CO2
+        var co2Emission = fuelEfficiency * co2Factors[fuelType];
+
+        // Вывод результата
+        document.getElementById('result').innerHTML = 'Количество CO2-эквивалента: ' + co2Emission.toFixed(3);
+    }
+</script>
+
+</body>
+</html>
